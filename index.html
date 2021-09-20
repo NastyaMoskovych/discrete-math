@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Завдання з дискретної математики</title>
+  <style>
+    form {
+      border-radius: 6px;
+      box-shadow: 0 0 8px #cc7a00;
+      max-width: 600px;
+      margin: 20px auto 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    hr {
+      margin-bottom: 40px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    option[value=""][disabled] {
+      display: none;
+    }
+
+    button {
+      margin-top: 10px;
+      width: 150px;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      background-color: #cc7a00;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff9800;
+    }
+
+    .author {
+      font-style: italic;
+      margin-top: 50px;
+      text-align: right;
+    }
+
+    .author p {
+      margin: 0;
+    }
+
+    .value {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+
+<body>
+  <form>
+    <h1>Завдання з дискретної математики №16</h1>
+    <p>
+      <span style="text-decoration: overline;">p &#8743; q</span> &#8596; q
+    </p>
+    <hr>
+    <label>
+      Значення p:
+      <select required name="pValue">
+        <option selected disabled value="">Виберіть значення</option>
+        <option value="false">false</option>
+        <option value="true">true</option>
+      </select>
+    </label>
+
+    <label>
+      Значення q:
+      <select required name="qValue">
+        <option selected disabled value="">Виберіть значення</option>
+        <option value="false">false</option>
+        <option value="true">true</option>
+      </select>
+    </label>
+
+    <p id="result"></p>
+
+    <button>Обчислити</button>
+
+    <div class="author">
+      <p>Виконала студентка групи КН-22</p>
+      <p>Москович А.Р.</p>
+    </div>
+
+  </form>
+
+  <script>
+    function expression(p, q) {
+      // 1. крок1 = p || q
+      // 2. крок2 = !крок1
+      // 3. крок3 = крок2 екв q (вираховуємо альтернативне АБО і робимо заперечення, бо JavaScript не має оператора еквівалентності)
+      return !(!(p || q) ^ q);
+    }
+
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const p = JSON.parse(document.querySelector('select[name="pValue"]').value);
+      const q = JSON.parse(document.querySelector('select[name="qValue"]').value);
+      const result = expression(p, q);
+
+      document.querySelector('#result').innerHTML = `Результат обчислення: <span style="color: ${result ? 'green' : 'red'};">${result}</span>`;
+    });
+  </script>
+
+</body>
+
+</html>
