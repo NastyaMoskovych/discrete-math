@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Завдання з дискретної математики</title>
+  <style>
+    .wrapper {
+      border-radius: 6px;
+      box-shadow: 0 0 8px #cc7a00;
+      max-width: 600px;
+      margin: 20px auto 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .ddnf {
+      background-color: #dddddd;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    hr {
+      margin-bottom: 40px;
+    }
+
+    .author {
+      font-style: italic;
+      margin-top: 50px;
+      text-align: right;
+    }
+
+    .author p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <h1>Завдання з дискретної математики №16</h1>
+    <p>
+      ((<span style="text-decoration: overline;">x</span> &#8596; y) v z) ^ <span
+        style="text-decoration: overline;">y</span>
+    </p>
+    <hr>
+
+    <table>
+      <thead>
+        <tr>
+          <th>x</th>
+          <th>y</th>
+          <th>z</th>
+          <th>
+            <span style="text-decoration: overline;">x</span>
+          </th>
+          <th>
+            <span style="text-decoration: overline;">y</span>
+          </th>
+          <th>
+            <span style="text-decoration: overline;">x</span> &#8596; y
+          </th>
+          <th>
+            (<span style="text-decoration: overline;">x</span> &#8596; y) v z
+          </th>
+          <th>
+            ((<span style="text-decoration: overline;">x</span> &#8596; y) v z) ^ <span
+              style="text-decoration: overline;">y</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <p class="ddnf-result"></p>
+
+    <div class="author">
+      <p>Виконала студентка групи КН-22</p>
+      <p>Москович А.Р.</p>
+    </div>
+
+  </div>
+
+  <script>
+    function expression(x, y, z) {
+      // true true true
+      // res1 = false
+      // res2 = false;
+      // res3 = false
+      // res4 = true
+      //    f = false
+      const res1 = !x;          // !x
+      const res2 = !y;          // !y
+      const res3 = !(res1 ^ y); // !x ↔ y
+      const res4 = res3 || z;   // (!x ↔ y) v z
+      const f = res4 && res2;   // ((!x ↔ y) v z) ^ !y
+
+      return { res1, res2, res3, res4, f };
+    }
+
+    function printDdnf(values) {
+      let ddnf = 'ДДНФ: ';
+
+      for (let i = 0; i < values.length; i++) {
+        const x = values[i][0];
+        const y = values[i][1];
+        const z = values[i][2];
+
+        ddnf += `(${x === true ? 'x' : '!x'} ^ ${y === true ? 'y' : '!y'} ^ ${z === true ? 'z' : '!z'})`;
+
+        if (i < values.length - 1) {
+          ddnf += ' v ';
+        }
+      }
+
+      return ddnf;
+    }
+
+    const tbody = document.querySelector('tbody');
+    const ddnfResult = document.querySelector('.ddnf-result');
+    const xyz = [
+      [true, true, true],
+      [true, true, false],
+      [true, false, true],
+      [true, false, false],
+      [false, true, true],
+      [false, true, false],
+      [false, false, true],
+      [false, false, false],
+    ];
+    const ddnf = [];
+    let html = '';
+
+    for (let i = 0; i < xyz.length; i++) {
+      const x = xyz[i][0];
+      const y = xyz[i][1];
+      const z = xyz[i][2];
+      const { res1, res2, res3, res4, f } = expression(x, y, z);
+
+      html += `
+        <tr class="${f === true ? 'ddnf' : ''}">
+          <td>${x}</td>
+          <td>${y}</td>
+          <td>${z}</td>
+          <td>${res1}</td>
+          <td>${res2}</td>
+          <td>${res3}</td>
+          <td>${res4}</td>
+          <td>${f}</td>
+        </tr>
+      `;
+
+      if (f === true) {
+        ddnf.push([x, y, z]);
+      }
+    }
+
+    tbody.innerHTML = html;
+    ddnfResult.textContent = printDdnf(ddnf);
+  </script>
+
+</body>
+
+</html>
