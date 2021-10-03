@@ -49,6 +49,10 @@
     .author p {
       margin: 0;
     }
+
+    span {
+      text-decoration: overline;
+    }
   </style>
 </head>
 
@@ -56,8 +60,7 @@
   <div class="wrapper">
     <h1>Завдання з дискретної математики №16</h1>
     <p>
-      ((<span style="text-decoration: overline;">x</span> &#8596; y) v z) ^ <span
-        style="text-decoration: overline;">y</span>
+      ((<span>x</span> &#8596; y) v z) ^ <span>y</span>
     </p>
     <hr>
 
@@ -68,20 +71,20 @@
           <th>y</th>
           <th>z</th>
           <th>
-            <span style="text-decoration: overline;">x</span>
+            <span>x</span>
           </th>
           <th>
-            <span style="text-decoration: overline;">y</span>
+            <span>y</span>
           </th>
           <th>
-            <span style="text-decoration: overline;">x</span> &#8596; y
+            <span>x</span> &#8596; y
           </th>
           <th>
-            (<span style="text-decoration: overline;">x</span> &#8596; y) v z
+            (<span>x</span> &#8596; y) v z
           </th>
           <th>
-            ((<span style="text-decoration: overline;">x</span> &#8596; y) v z) ^ <span
-              style="text-decoration: overline;">y</span>
+            ((<span>x</span> &#8596; y) v z) ^ <span
+            >y</span>
           </th>
         </tr>
       </thead>
@@ -122,7 +125,7 @@
         const y = values[i][1];
         const z = values[i][2];
 
-        ddnf += `(${x === true ? 'x' : '!x'} ^ ${y === true ? 'y' : '!y'} ^ ${z === true ? 'z' : '!z'})`;
+        ddnf += `(${x === true ? 'x' : '<span>x</span> '} ^ ${y === true ? 'y' : '<span>y</span> '} ^ ${z === true ? 'z' : '<span>z</span> '})`;
 
         if (i < values.length - 1) {
           ddnf += ' v ';
@@ -172,7 +175,7 @@
     }
 
     tbody.innerHTML = html;
-    ddnfResult.textContent = printDdnf(ddnf);
+    ddnfResult.innerHTML = printDdnf(ddnf);
   </script>
 
 </body>
