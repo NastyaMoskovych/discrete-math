@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Завдання з дискретної математики</title>
+  <style>
+    .wrapper {
+      border-radius: 6px;
+      box-shadow: 0 0 8px #cc7a00;
+      max-width: 600px;
+      margin: 20px auto 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    hr {
+      margin: 30px 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    option[value=""][disabled] {
+      display: none;
+    }
+
+    button {
+      margin-top: 10px;
+      width: 150px;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      background-color: #cc7a00;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff9800;
+    }
+
+    .author {
+      font-style: italic;
+      margin-top: 50px;
+      text-align: right;
+    }
+
+    .author p {
+      margin: 0;
+    }
+
+    .value {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <form class="form-1">
+      <h1>Завдання з дискретної математики №16</h1>
+      <p>
+        <b>Завдання 1:</b>
+      </p>
+      <p>
+        Дано множини А та В, які являють собою підмножини деякого універсуму. Скласти
+        програму, яка виводить на екран об’єднання, перетин, різницю, симетричну різницю
+        множин.
+      </p>
+      <label>
+        Множина А:
+        <input type="text" required name="mA" autocomplete="off">
+      </label>
+
+      <label>
+        Множина B:
+        <input type="text" required name="mB" autocomplete="off">
+      </label>
+
+      <div class="result-1"></div>
+
+      <button>Обчислити</button>
+
+    </form>
+    <hr>
+    <form class="form-2">
+      <p>
+        <b>Завдання 2:</b>
+      </p>
+      <p>
+        Ввести з клавіатури дві множини символьних даних.
+        Реалізувати операцію об'єднання над цими множинами.
+        Вивести на екран новоутворену множину.
+        Програмно реалізувати побудову булеану цієї множини.
+      </p>
+      <label>
+        Множина А:
+        <input type="text" required name="mA" autocomplete="off">
+      </label>
+
+      <label>
+        Множина B:
+        <input type="text" required name="mB" autocomplete="off">
+      </label>
+
+      <div class="result-2"></div>
+
+      <button>Обчислити</button>
+
+      <div class="author">
+        <p>Виконала студентка групи КН-22</p>
+        <p>Москович А.Р.</p>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    // об'єднання
+    function exp1(a, b) {
+      return [...new Set([...a, ...b])];
+    }
+
+    // перетин
+    function exp2(a, b) {
+      const res = [];
+
+      for (let i = 0; i < a.length; i++) {
+        if (b.includes(a[i])) {
+          res.push(a[i]);
+        }
+      }
+
+      return res;
+    }
+
+    // різниця (симетрична різниця)
+    function exp3(a, b) {
+      const res1 = [];
+      const res2 = [];
+
+      for (let i = 0; i < a.length; i++) {
+        if (!b.includes(a[i])) {
+          res1.push(a[i]);
+        }
+      }
+
+      for (let i = 0; i < b.length; i++) {
+        if (!a.includes(b[i])) {
+          res2.push(b[i]);
+        }
+      }
+
+      return [res1, res2];
+    }
+
+    function getBoolean(a) {
+      const result = [];
+      const slent = Math.pow(2, a.length);
+      let temp = [];
+      let boolean = '{0}';
+
+      for (let i = 0; i < slent; i++) {
+        temp = [];
+        for (let j = 0; j < a.length; j++) {
+          if ((i & Math.pow(2, j))) {
+            temp.push(a[j]);
+          }
+        }
+        if (temp.length > 0) {
+          result.push(temp);
+        }
+      }
+
+      result.sort((a, b) => a.length - b.length);
+
+      for (let i = 0; i < result.length; i++) {
+        boolean += `, {${result[i]}}`;
+      }
+
+      return { boolean, length: result.length + 1 };
+    }
+
+    document.querySelector('.form-1').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const dataA = document.querySelector('.form-1 [name="mA"]').value.trim().split(' ');
+      const dataB = document.querySelector('.form-1 [name="mB"]').value.trim().split(' ');
+      const res = document.querySelector('.result-1');
+
+      const res1 = exp1(dataA, dataB);
+      const res2 = exp2(dataA, dataB);
+      const res3 = exp3(dataA, dataB);
+      let html = '';
+
+      html += `<p>Oб'єднання: {${res1}}</p>`;
+      html += `<p>Перетин: {${res2}}</p>`;
+      html += `<p>Різниця: {${res3[0]}}; {${res3[1]}}</p>`;
+      html += `<p>Симетрична різниця: {${[...res3[0], ...res3[1]]}}</p>`;
+
+      res.innerHTML = html;
+    });
+
+    document.querySelector('.form-2').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const dataA = document.querySelector('.form-2 [name="mA"]').value.trim().split(' ');
+      const dataB = document.querySelector('.form-2 [name="mB"]').value.trim().split(' ');
+      const res = document.querySelector('.result-2');
+
+      const res1 = exp1(dataA, dataB);
+      const { boolean, length } = getBoolean(res1);
+      let html = '';
+
+      html += `<p>Oб'єднання: C = {${res1}}</p>`;
+      html += `<p>${boolean}</p>`;
+      html += `<p>|2<sup>A</sup>| = ${length}</p>`;
+      html += `<p>|A| = ${Number.parseInt(Math.sqrt(length) * 100) / 100}</p>`;
+
+      console.log(getBoolean(res1))
+
+
+      res.innerHTML = html;
+    });
+
+  </script>
+
+</body>
+
+</html>
