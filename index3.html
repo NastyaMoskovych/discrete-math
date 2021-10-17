@@ -203,10 +203,10 @@
       const res3 = exp3(dataA, dataB);
       let html = '';
 
-      html += `<p>Oб'єднання: {${res1}}</p>`;
-      html += `<p>Перетин: {${res2}}</p>`;
-      html += `<p>Різниця: {${res3[0]}}; {${res3[1]}}</p>`;
-      html += `<p>Симетрична різниця: {${[...res3[0], ...res3[1]]}}</p>`;
+      html += `<p>Oб'єднання: A &cup; B = {${res1}}</p>`;
+      html += `<p>Перетин: A &cap; B = {${res2}}</p>`;
+      html += `<p>Різниця: A \\ B = {${res3[0]}}; B \\ A = {${res3[1]}}</p>`;
+      html += `<p>Симетрична різниця: A &oplus; B = {${[...res3[0], ...res3[1]]}}</p>`;
 
       res.innerHTML = html;
     });
@@ -222,7 +222,7 @@
       const { boolean, length } = getBoolean(res1);
       let html = '';
 
-      html += `<p>Oб'єднання: C = {${res1}}</p>`;
+      html += `<p>Oб'єднання:  A &cup; B = {${res1}}</p>`;
       html += `<p>${boolean}</p>`;
       html += `<p>|2<sup>A</sup>| = ${length}</p>`;
       html += `<p>|A| = ${Number.parseInt(Math.sqrt(length) * 100) / 100}</p>`;
